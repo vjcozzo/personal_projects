@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-void mergesort (int size, int *total_arr, int init, int end, int *result);
-void merge (int *half1, int size1, int *half2, int size2, int *result);
+#include "mergesort.h"
 
 int main (int argc, char **argv) {
     int ind, n, *a = NULL, *r = NULL;
@@ -53,21 +51,12 @@ void mergesort (int n, int *arr, int p, int q, int *result) {
         merge ((arr + p), 1, (arr + p + 1), 1, (result+p));
     } else if (q > p) {
         int boundary_size = ((q - p + 1)/2);
-        int ind;
         mergesort (n, arr, p, p + boundary_size - 1, result);
         mergesort (n, arr, p + boundary_size, q, result);
         merge (result + p, boundary_size, result+boundary_size+p, boundary_size, result + p);
     }
 }
 
-/* Notes to self---
- * one reason why this isn't working could be that 
- * I am actually in fact MODIFYING THE SAME ARRAY,
- * which trying to generate a NEW array from itself.
- * This array is called "result" 
- * but it is also read by the name of a1 and a2, in the merge function
- * Solution: dynamically allocate a new array in the mergesort() function
- * and pass this NEW array as the final parameter of the merge() fct call. */
 void merge (int *a1, int s1, int *a2, int s2, int *res) {
     int *new = malloc ((s1 + s2) * sizeof(int));
     int i = 0, j = 0, ind;

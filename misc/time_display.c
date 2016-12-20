@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <time.h>
 
-int main () {
+int main() {
     time_t now;
     now = time(NULL);
     printf("%ju", (uintmax_t) now);

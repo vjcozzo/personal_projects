@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-void quicksort (int size, int *total_arr, int init, int end);
-int partition (int *a, int size);
+#include "heapsort.h"
 
 int main (int argc, char **argv) {
     int ind, n, *a = NULL;
@@ -16,8 +14,7 @@ int main (int argc, char **argv) {
             scanf ("%d", (a+ind)); 
         }
     } else {
-        int tmp;
-
+        int tmp; 
         n = atoi (argv[1]);
         tmp = n + 2;
         if (tmp != (argc)) {
@@ -32,7 +29,13 @@ int main (int argc, char **argv) {
         }
     }
     printf("Size = %d\n", n);
-    quicksort (n, a, 0, n-1);
+    heapify (n, a);
+    printf ("Heapified array: [");
+    for (ind = 0; ind < n-1; ind ++) {
+        printf ("%d, ", *(a+ind));
+    }
+    printf ("%d]\n", *(a+n-1));
+    heapsort (n, a);
     printf ("Sorted array: [");
     for (ind = 0; ind < n-1; ind ++) {
         printf ("%d, ", *(a+ind));
@@ -40,29 +43,4 @@ int main (int argc, char **argv) {
     printf ("%d]\n", *(a+n-1));
     free (a);
     return 0;
-}
-
-void quicksort (int n, int *ary, int p, int q) {
-    if (q > p) {
-        int boundary = partition (ary+p, (q-p+1));
-        quicksort (n, ary, p, p + boundary - 1);
-        quicksort (n, ary, p + boundary + 1, q);
-    }
-}
-
-int partition (int *arr, int arr_size) {
-    int pivot = arr[arr_size - 1];
-    int i=-1, j, tmp;
-    for (j = 0; j < arr_size-1; j ++) {
-        if (arr[j] < pivot) {
-            i ++;
-            tmp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = tmp;
-        }
-    }
-    i ++;
-    arr[arr_size - 1] = arr[i];
-    arr[i] = pivot;
-    return i;
 }
